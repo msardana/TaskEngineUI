@@ -41,7 +41,7 @@ class LeftSectionPage extends React.Component {
 
    render() {
       return (
-	  <form >
+
 		<div>
 				  <Row>
 					<Col md={6}>
@@ -137,7 +137,7 @@ class LeftSectionPage extends React.Component {
 				  </Row>
 		</div>
 
-		</form>
+
       );
    }
 }

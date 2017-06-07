@@ -31,6 +31,17 @@ class SearchFilter extends React.Component {
 }
 
 class ParentComponent extends React.Component {
+
+  constructor(props) {
+		super(props);
+		this.state = {
+			filter: {}	
+		};		
+	};
+	onInputChange(event) {
+		
+	}
+	
 	handleClickOutside(){
 		this.props.fun(false);
 	};
@@ -38,7 +49,7 @@ class ParentComponent extends React.Component {
         return (		
 		<div>
 			{this.props.children}
-			<div><FormControl className="myControl mySel" componentClass="select"><option>Task ID</option><option>Status</option><option>Requestor</option><option>Start Date</option><option>Target date</option><option>Assignment Group</option><option>Assigned To</option><option>Description</option></FormControl><FormControl className="myControl mySel" componentClass="select"><option>&#61;</option><option>&#60;</option><option>&#62;</option></FormControl><FormControl className="myControl myInput mySer" type="text" /><Button bsStyle="link" className="plusBtn" onClick={this.props.addChild}><i className="fa fa-plus" ></i></Button><Button title="Search Task" bsStyle="primary" type="submit" className="myBtn"><i className="fa fa-search"></i></Button></div>
+			<div><FormControl className="myControl mySel" componentClass="select" name="fieldName" onChange={event => this.onFieldChange(event)}><option value="taskCode">Task ID</option><option value="statusId">Status</option><option value="createdBy">Requestor</option><option value="startDate">Start Date</option><option value="dueDate">Target date</option><option value="assignedToGroup">Assignment Group</option><option value="assignedTo">Assigned To</option><option  value="description">Description</option></FormControl><FormControl className="myControl mySel" componentClass="select" name="fieldOperator" ><option>&#61;</option><option>&#60;</option><option>&#62;</option></FormControl><FormControl className="myControl myInput mySer" type="text" name="fieldValue" /><Button bsStyle="link" className="plusBtn" onClick={this.props.addChild}><i className="fa fa-plus" ></i></Button><Button title="Search Task" bsStyle="primary" type="submit" className="myBtn"><i className="fa fa-search"></i></Button></div>
 		</div>
         );
     }
@@ -46,7 +57,7 @@ class ParentComponent extends React.Component {
 class ChildComponent extends React.Component {
     render () {
         return (
-             <div className="margin-b-5"><FormControl className="myControl mySel" componentClass="select"><option>Task ID</option><option>Status</option><option>Requestor</option><option>Start Date</option><option>Target date</option><option>Assignment Group</option><option>Assigned To</option><option>Description</option></FormControl><FormControl className="myControl mySel" componentClass="select"><option>&#61;</option><option>&#60;</option><option>&#62;</option></FormControl><FormControl className="myControl myInput mySer" type="text" /><Button disabled bsStyle="link" className="plusBtn">&#38;</Button></div>
+             <div className="margin-b-5"><FormControl className="myControl mySel" componentClass="select" value={this.state.field} ><option value="taskCode">Task ID</option><option value="statusId">Status</option><option value="createdBy">Requestor</option><option value="startDate">Start Date</option><option value="dueDate">Target date</option><option value="assignedToGroup">Assignment Group</option><option value="assignedTo">Assigned To</option><option  value="description">Description</option></FormControl><FormControl className="myControl mySel" componentClass="select" value={this.state.operator} ><option>&#61;</option><option>&#60;</option><option>&#62;</option></FormControl><FormControl className="myControl myInput mySer" type="text" value={this.state.term} /><Button disabled bsStyle="link" className="plusBtn">&#38;</Button></div>
         );
     }
 }

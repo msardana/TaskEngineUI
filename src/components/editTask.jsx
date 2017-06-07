@@ -2,13 +2,14 @@ import React from 'react';
 import {Grid,Row,Col,Form} from 'react-bootstrap';
 
 import Header from './header.jsx';
-import LeftSidebar from './newTask/left-sidebar.jsx';
+import LeftSidebar from './editTask/left-sidebar.jsx';
 import RightSidebar from './right-sidebar-menulist.jsx';
-import HeaderMain from './taskHome/header.jsx';
-import LeftSection from './taskHome/tasksListing.jsx';
+import HeaderMain from './editTask/header.jsx';
+import LeftSection from './editTask/form.jsx';
+import RightSection from './editTask/requestor.jsx';
 import FooterMain from './footer.jsx';
 
-class MyComponent extends React.Component {
+class EditTask extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state ={
@@ -20,6 +21,7 @@ class MyComponent extends React.Component {
 		this.setState({showHideRightNav:!this.state.showHideRightNav});
 	};
    render() {
+	
       return (
 		<div>
 			{/* App Header Section Start*/}
@@ -35,11 +37,27 @@ class MyComponent extends React.Component {
 			{/* App Left Side MenuBar Section End*/}
 			
 			<Grid className="midInnerAll" bsClass="">
-			<Form>
+			
 				{/* App Heading Section Start*/}
 				<HeaderMain />
 				{/* App Heading Section end*/}
-				<LeftSection />
+				
+				<Row className="row-eq-height">
+					<Col md={8} sm={12} xs={12}>
+						<div className="">
+							{/* Page Left Section Start*/}
+							<LeftSection />
+							{/* Page Left Section End*/}
+						</div>
+					</Col>
+					<Col md={4} className="hidden-sm hidden-xs colRightHeight">
+						<div className="">
+							{/* Page Right Section Start*/}
+							<RightSection />
+							{/* Page Right Section End*/}
+						</div>
+					</Col>     
+				</Row>
 				<Row>
 					<Col xs={12}>
 						{/* Footer Section Start*/}
@@ -47,7 +65,7 @@ class MyComponent extends React.Component {
 						{/* Footer Section End*/}
 					</Col>
 				</Row>
-			</Form>
+			
 			</Grid>
 		</div>
       );
@@ -55,5 +73,5 @@ class MyComponent extends React.Component {
 }
 
 
-export default MyComponent;
+export default EditTask;
 

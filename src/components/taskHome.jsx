@@ -5,8 +5,7 @@ import Header from './header.jsx';
 import LeftSidebar from './newTask/left-sidebar.jsx';
 import RightSidebar from './right-sidebar-menulist.jsx';
 import HeaderMain from './taskHome/header.jsx';
-import LeftSection from './taskHome/list.jsx';
-import RightSection from './newTask/processHierarchy.jsx';
+import LeftSection from './taskHome/tasksListing.jsx';
 import FooterMain from './footer.jsx';
 
 class MyComponent extends React.Component {
@@ -40,23 +39,8 @@ class MyComponent extends React.Component {
 				{/* App Heading Section Start*/}
 				<HeaderMain />
 				{/* App Heading Section end*/}
+				<LeftSection />
 				
-				<Row className="row-eq-height">
-					<Col md={8} sm={12} xs={12}>
-						<div className="">
-							{/* Page Left Section Start*/}
-							<LeftSection />
-							{/* Page Left Section End*/}
-						</div>
-					</Col>
-					<Col md={4} className="hidden-sm hidden-xs colRightHeight">
-						<div className="">
-							{/* Page Right Section Start*/}
-							<RightSection />
-							{/* Page Right Section End*/}
-						</div>
-					</Col>     
-				</Row>
 				<Row>
 					<Col xs={12}>
 						{/* Footer Section Start*/}

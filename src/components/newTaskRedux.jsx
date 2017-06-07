@@ -1,12 +1,13 @@
 import React from 'react';
-import {Grid,Row,Col,Form} from 'react-bootstrap';
-
+import {Row,Col,FormGroup,FormControl,ControlLabel, Grid} from 'react-bootstrap';
 import Header from './header.jsx';
-import LeftSidebar from './newTask/left-sidebar.jsx';
+import LeftSidebar from './newTaskRedux/left-sidebar.jsx';
 import RightSidebar from './right-sidebar-menulist.jsx';
-import HeaderMain from './taskHome/header.jsx';
-import LeftSection from './taskHome/tasksListing.jsx';
+import HeaderMain from './newTaskRedux/header.jsx';
+import NewTaskFormSection from './newTaskRedux/form.jsx';
+import RightSection from './newTaskRedux/requestor.jsx';
 import FooterMain from './footer.jsx';
+
 
 class MyComponent extends React.Component {
 	constructor(props) {
@@ -19,6 +20,16 @@ class MyComponent extends React.Component {
 	showHideRightNav(value){
 		this.setState({showHideRightNav:!this.state.showHideRightNav});
 	};
+	
+	showResults(values) {
+//	const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+	
+
+  alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
+  this.props.createTask(values);
+}
+
    render() {
       return (
 		<div>
@@ -34,25 +45,22 @@ class MyComponent extends React.Component {
 			<LeftSidebar  />
 			{/* App Left Side MenuBar Section End*/}
 			
-			<Grid className="midInnerAll" bsClass="">
-			<Form>
-				{/* App Heading Section Start*/}
-				<HeaderMain />
-				{/* App Heading Section end*/}
-				<LeftSection />
-				<Row>
-					<Col xs={12}>
-						{/* Footer Section Start*/}
-						<FooterMain />
-						{/* Footer Section End*/}
-					</Col>
-				</Row>
-			</Form>
-			</Grid>
-		</div>
+			<NewTaskFormSection />
+			
+			
+			<Row>
+				<Col xs={12}>
+					{/* Footer Section Start*/}
+					<FooterMain />
+					{/* Footer Section End*/}
+				</Col>
+			</Row>
+
+			</div>
       );
    }
 }
+
 
 
 export default MyComponent;
