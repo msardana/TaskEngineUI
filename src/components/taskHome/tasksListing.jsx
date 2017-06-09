@@ -14,16 +14,16 @@ var taskService = require('./../../server/tasks.js');
 class TasksMain extends React.Component {
 	constructor(props){
 	super(props);
-		this.state = {
-			activePage:1,		
-		};
+		
 	};
 	
 	componentWillMount() {
-		//this.props.fetchTasks();
+	
+		this.props.fetchTasks();
 	}
 		
    render() {
+   console.log(this.props.isFetching);
    
       return (
 	  		<Row className="row-eq-height">
@@ -56,12 +56,11 @@ class TasksMain extends React.Component {
 								</Col>
 								<Col md={9}>
 									<div className="text-r">
-										<Pagination className="margin-0" prev next boundaryLinks items={10} maxButtons={3} activePage={this.state.activePage}  />
+										<Pagination className="margin-0" prev next boundaryLinks items={10} maxButtons={3}   />
 									</div>
 								</Col>
 							</Row>										
-
-							<TasksList tasks={this.props.tasks} loading={this.props.loading}/>
+							{this.props.tasks.length > 0 ? <TasksList /> :<p> Loading...</p>}
 						</div>
 						{/* Page Left Section End*/}
 					</div>
@@ -81,10 +80,10 @@ class TasksMain extends React.Component {
 }
 
 function mapStateToProps(state) {
-	return {tasks: state.tasks, loading: state.loading, task: state.selectedTask};
+	return {tasks: state.tasks, isFetching : state.isFetching};
 }
 
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({fetchTasks: fetchTasks}, dispatch);
 }
-export default connect(mapStateToProps, mapDispatchToProps)(TasksMain);
+export default connect(mapStateToProps,mapDispatchToProps)(TasksMain);

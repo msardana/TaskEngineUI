@@ -12,6 +12,7 @@ const rootReducer = combineReducers({
 	advertisement: AdvertisementReducer,
 	appUser: userInfo,
 	tasks: tasksReducer,
+	isFetching: tasksReducer,
 	selectedTask: taskReducer,
 	form: formReducer,
 	loading: loading

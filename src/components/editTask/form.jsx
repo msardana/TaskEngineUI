@@ -112,17 +112,17 @@ const number = value =>
 				  <Row>
 					<Col md={6}>
 						<FormGroup>
-						  <ControlLabel bsClass=""><span className="rStar"></span> Target Date</ControlLabel>
+						  <ControlLabel bsClass=""><span className="rStar"></span> Start Date</ControlLabel>
 							<div className="dateTimeSdiv">
-								<Field component={this.renderDateFields} name="dueDate" > </Field>
+								<Field component={this.renderDateFields} name="startDate" > </Field>
 							</div>
 						 </FormGroup>
 					</Col>
 					<Col md={6}>
 						<FormGroup>
-							<ControlLabel bsClass=""><span className="rStar"></span> Start Date</ControlLabel>
+							<ControlLabel bsClass=""><span className="rStar"></span> Target Date</ControlLabel>
 							<div className="dateTimeSdiv">
-								<Field component={this.renderDateFields} name="startDate"> </Field>
+								<Field component={this.renderDateFields} name="dueDate"> </Field>
 							</div>
 
 						</FormGroup>
@@ -132,13 +132,13 @@ const number = value =>
 					<Col md={6}>
 						<FormGroup>
 						  <ControlLabel bsClass="">Assignment Group</ControlLabel>
-						  <div className="position-re"><Field name="assignedToGroupId" component={renderTextFields} type="text" placeholder="AssignedToGroup" className="form-control"  /><span className="clickInfo1"></span></div>
+						  <div className="position-re"><Field name="assignedToGroup" component={renderTextFields} type="text" placeholder="AssignedToGroup" className="form-control"  /><span className="clickInfo1"></span></div>
 						 </FormGroup>
 					</Col>
 					<Col md={6}>
 						<FormGroup>
 							<ControlLabel bsClass="">Assigned To</ControlLabel>
-							<div className="position-re"><Field name="assignedToId" component={renderTextFields} type="text" placeholder="AssignedTo"  className="form-control" /><span className="clickInfo1"></span></div>
+							<div className="position-re"><Field name="assignedTo" component={renderTextFields} type="text" placeholder="AssignedTo"  className="form-control" /><span className="clickInfo1"></span></div>
 						</FormGroup>
 					</Col>					
 				  </Row>

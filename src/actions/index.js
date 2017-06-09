@@ -2,7 +2,7 @@ import axios from 'axios';
 var taskService = require('./../server/tasks.js');
 
 
-export const FETCH_TASKS = 'fetch_tasks';
+export const FETCH_TASKS_REQUEST = 'fetch_tasks_request';
 export const FETCH_TASKS_RECIEVED = "fetch_tasks_recieved";
 export const FETCH_TASKS_ERROR = "fetch_tasks_error";
 export const TASK_SELECTED = 'task_selected';
@@ -17,11 +17,36 @@ export function selectTask(task) {
 	};
 }
 
-export function getTasks() {
+function requestTasks() {
+	console.log('request tasks action called');
+	return {
+		type: FETCH_TASKS_REQUEST,
+		isFetching: true,
+		payload: taskService.getAll('filters')
+	}
+}
+
+function recieveTasks(json) {
+	console.log('recieve task action called');	
+  return {
+    type: FETCH_TASKS_RECIEVED,  
+	isFetching: false,	
+    payload: json
+  }	
+}
+
+export function fetchTasks() {
+	console.log('fetch tasks action called');
+
+  return function (dispatch) {
+	  console.log('caled me')
+    dispatch(requestTasks())
+    return axios.get('https://tasksrestnew.mybluemix.net/api/tasks')
+      .then(response => dispatch(recieveTasks(response.data)))      
+  }
+  
 	
-	/*axios.defaults.baseURL = 'https://api.us.apiconnect.ibmcloud.com/hcl-exploration-dev/sb/api/tasks';
-axios.defaults.headers.common['X-IBM-Client-Id'] = 'b56cce80-a3fc-4194-87d7-edddb4d3bd28';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+	/*
 
 	axios.get()
 	.then(function (response) {
@@ -49,11 +74,11 @@ axios.defaults.headers.post['Content-Type'] = 'application/json';
 		loading: true,
 		payload: null
 	};
-*/
+
 	return {
 		type: FETCH_TASKS,
 		payload: taskService.getAll('filters')
-	};
+	}; */
 }
 
 export function createTask(values, callback) {

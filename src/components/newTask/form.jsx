@@ -1,59 +1,75 @@
 import React from 'react';
-import {Row,Col,FormGroup,FormControl,ControlLabel} from 'react-bootstrap';
+
+import {Row,Col,FormGroup,FormControl,ControlLabel, Grid} from 'react-bootstrap';
 import {DateField,DatePicker,TransitionView,Calendar} from 'react-date-picker';
+import { Field, reduxForm } from 'redux-form';
+import RightSection from './requestor.jsx';
+import HeaderMain from './header.jsx';
+import {createTask} from '../../actions/index';
+import {connect } from 'react-redux';
 
 class LeftSectionPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-		taskData: {}	
-	};
+renderDateFields(field) {
+	return(
+		<DateField dateFormat="MM-DD-YYYY HH:mm:ss" updateOnDateClick={true} forceValidDate={true} {...field.input} name={field.name}><DatePicker navigation={true} locale="en" forceValidDate={true} highlightWeekends={true} highlightToday={true} cancelButton={false} clearButton={false} weekNumbers={false} weekStartDay={1} /></DateField>
+	);
+}
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  };
+	showResults(values) {
+//	const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-  handleChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+	
 
-	var newState = {}
-	newState[name] = value;
-    this.setState({
-      taskData: newState
-    });
-  };
+  alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
+  this.props.createTask(values, () => {
+	this.props.history.push('/');	
+  });
+}
 
-  handleSubmit(event) {
-    alert('Your favorite flavor is: ' + this.state.value);
-    event.preventDefault();
-  };
+render() {
+
+
+const renderTextFields = ({input, label, type, className, meta: {touched, error, warning}}) => (
+ 
+ <div>
+		<input {...input} placeholder={label} type={type} className={className}/>
+      {touched && ((error && <span className='text-help'>{error}</span>) || (warning && <span>{warning}</span>))}
+	  </div>
+)
+
+
+const { handleSubmit, pristine, reset, submitting } = this.props;
+const required = value => (value ? undefined : 'Required')
+const maxLength = max => value =>
+  value && value.length > max ? `Must be ${max} characters or less` : undefined
+const maxLength300 = maxLength(300)
+const number = value =>
+  value && isNaN(Number(value)) ? 'Must be a number' : undefined
   
-  	componentWillMount(){	
-		if (this.props.data) {
-			this.setState({				  
-				  taskData: this.props.data
-			});		
-		}
-	};
-
-
-   render() {
-      return (
-	  <form >
+  return (
+		<Grid className="midInnerAll" bsClass="">
+		
+			{/* App Heading Section Start*/}
+			<HeaderMain />
+			{/* App Heading Section end*/}
+			
+			<Row className="row-eq-height">
+				<Col md={8} sm={12} xs={12}>
+					<div className="">
+		{/* Page Left Section Start*/}
+		<form onSubmit={handleSubmit(this.showResults.bind(this))}>
 		<div>
 				  <Row>
 					<Col md={6}>
 						<FormGroup>
 						  <ControlLabel bsClass=""><span className="rStar"></span> Task #</ControlLabel>
-						  <FormControl type="text" name="taskCode" value={this.state.taskData.taskCode} onChange={this.handleChange}/>
+						  <Field name="taskCode" component={renderTextFields} type="text" placeholder="Task#" className="form-control"  />						  
 						 </FormGroup>
 					</Col>
 					<Col md={6}>
 						<FormGroup>
 							<ControlLabel bsClass="">Parent WorkItem</ControlLabel>
-							<FormControl type="text" name="workItemId" value={this.state.taskData.workItemId} onChange={this.handleChange}/>
+							<Field name="workItemId" component={renderTextFields} type="text" placeholder="Work Item#"  className="form-control" validate={required}/>
 						</FormGroup>
 					</Col>		
 				  </Row>
@@ -61,19 +77,19 @@ class LeftSectionPage extends React.Component {
 					<Col md={6}>
 						<FormGroup>
 							<ControlLabel bsClass="">Status</ControlLabel>
-							<FormControl className="myControl mySort" componentClass="select" name="statusId" value={this.state.taskData.statusId} onChange={this.handleChange}>
+							<Field name="statusId" component="select" className="myControl mySort">							
 								<option value="">Unassigned</option>
-								<option value="0">Assigned</option>
-								<option value="1">In Progress</option>
-								<option value="2">Completed</option>
-								<option value="3">Cancelled</option>
-							</FormControl>	
+								<option value="1">Assigned</option>
+								<option value="2">In Progress</option>
+								<option value="3">Completed</option>
+								<option value="4">Cancelled</option>
+							</Field>	
 						</FormGroup>
 					</Col>				  
 					<Col md={6}>
 						<FormGroup>
 							<ControlLabel bsClass="">Requester</ControlLabel>
-							<div className="position-re"><FormControl type="text" name="createdBy" value={this.state.taskData.createdBy} onChange={this.handleChange}/><span className="clickInfo1"></span></div>
+							<div className="position-re"><Field name="createdBy" component={renderTextFields} type="text" placeholder="CreatedBy"  className="form-control" /><span className="clickInfo1"></span></div>
 						</FormGroup>
 					</Col>		
 				  </Row>
@@ -81,16 +97,16 @@ class LeftSectionPage extends React.Component {
 					<Col md={6}>
 						<FormGroup>
 						  <ControlLabel bsClass=""><span className="rStar"></span> Task Sequence</ControlLabel>
-						  <FormControl type="text" name="sequenceNumber" value={this.state.taskData.sequenceNumber} onChange={this.handleChange}/>
+						  <Field name="sequenceNumber" component={renderTextFields} type="text" placeholder="SequenceNumber"  className="form-control" validate={[required, number]}/>						  
 						 </FormGroup>
 					</Col>
 					<Col md={6}>
 						<FormGroup>
 							<ControlLabel bsClass=""><span className="rStar"></span> Task Type</ControlLabel>
-							<FormControl className="myControl mySort" componentClass="select" name="sequenceType" value={this.state.taskData.sequenceType} onChange={this.handleChange}> 								
-								<option value="1">Parallel</option>
-								<option value="2">Sequential</option>
-							</FormControl>	
+							<Field name="sequenceType" component="select" className="myControl mySort">							
+									<option value="Parallel">Parallel</option>
+								<option value="Sequential">Sequential</option>
+							</Field>	
 						</FormGroup>
 					</Col>		
 				  </Row>				  
@@ -98,24 +114,24 @@ class LeftSectionPage extends React.Component {
 					<Col md={12}>
 						<FormGroup>
 						  <ControlLabel bsClass=""><span className="rStar"></span> Description</ControlLabel>
-						  <FormControl componentClass="textarea" className="" rows="2" name="description" value={this.state.taskData.description} onChange={this.handleChange}/>
+						  <Field name="description" component={renderTextFields} type="textarea" className="form-control" validate={required, maxLength300}/>
 						</FormGroup>
 					</Col>					
 				  </Row>
 				  <Row>
 					<Col md={6}>
 						<FormGroup>
-						  <ControlLabel bsClass=""><span className="rStar"></span> Target Date</ControlLabel>
+						  <ControlLabel bsClass=""><span className="rStar"></span> Start Date</ControlLabel>
 							<div className="dateTimeSdiv">
-								<DateField name="dueDate"  dateFormat="MM-DD-YYYY HH:mm:ss" updateOnDateClick={true} forceValidDate={true} defaultValue={1493105086058} onChange={this.handleChange}><DatePicker navigation={true} locale="en" forceValidDate={true} highlightWeekends={true} highlightToday={true} cancelButton={false} clearButton={false} weekNumbers={false} weekStartDay={1} /></DateField>
+								<Field component={this.renderDateFields} name="startDate" > </Field>
 							</div>
 						 </FormGroup>
 					</Col>
 					<Col md={6}>
 						<FormGroup>
-							<ControlLabel bsClass=""><span className="rStar"></span> Start Date</ControlLabel>
+							<ControlLabel bsClass=""><span className="rStar"></span> Target Date</ControlLabel>
 							<div className="dateTimeSdiv">
-								<DateField name="startDate"  dateFormat="MM-DD-YYYY HH:mm:ss" updateOnDateClick={true} forceValidDate={true} defaultValue={1493105086058} onChange={this.handleChange}><DatePicker navigation={true} locale="en" forceValidDate={true} highlightWeekends={true} highlightToday={true} cancelButton={false} clearButton={false} weekNumbers={false} weekStartDay={1} /></DateField>
+								<Field component={this.renderDateFields} name="dueDate"> </Field>
 							</div>
 
 						</FormGroup>
@@ -124,22 +140,60 @@ class LeftSectionPage extends React.Component {
 				  <Row>
 					<Col md={6}>
 						<FormGroup>
-						  <ControlLabel bsClass=""><span className="rStar"></span> Assignment Group</ControlLabel>
-						  <div className="position-re"><FormControl type="text" name="assignedToGroup" value={this.state.taskData.assignedToGroup} onChange={this.handleChange}/><span className="clickInfo1"></span></div>
+						  <ControlLabel bsClass="">Assignment Group</ControlLabel>
+						  <div className="position-re"><Field name="assignedToGroup" component={renderTextFields} type="text" placeholder="AssignedToGroup" className="form-control"  /><span className="clickInfo1"></span></div>
 						 </FormGroup>
 					</Col>
 					<Col md={6}>
 						<FormGroup>
 							<ControlLabel bsClass="">Assigned To</ControlLabel>
-							<div className="position-re"><FormControl type="text" name="assignedTo" value={this.state.taskData.assignedTo} onChange={this.handleChange}/><span className="clickInfo1"></span></div>
+							<div className="position-re"><Field name="assignedTo" component={renderTextFields} type="text" placeholder="AssignedTo"  className="form-control" /><span className="clickInfo1"></span></div>
 						</FormGroup>
 					</Col>					
 				  </Row>
+      <div>
+        <button type="submit" disabled={pristine || submitting}>Submit</button>
+        <button type="button" disabled={pristine || submitting} onClick={reset}>
+          Clear Values
+        </button>
+      </div>
 		</div>
 
 		</form>
-      );
-   }
+
+						{/* Page Left Section End*/}
+					</div>
+				</Col>
+				<Col md={4} className="hidden-sm hidden-xs colRightHeight">
+					<div className="">
+						{/* Page Right Section Start*/}
+						<RightSection />
+						{/* Page Right Section End*/}
+					</div>
+				</Col>     
+			</Row>
+		
+		</Grid>  
+  
+      
+  );
+  
+}
 }
 
-export default LeftSectionPage;
+function validate(values) {
+	//console.log(values);
+	const errors = {};
+	if(!values.taskCode) {
+		errors.taskCode = 'Enter a unique task Id';
+	}
+	if(!values.sequenceNumber) {
+		errors.sequenceNumber = 'Assign a valid sequence number to this task';
+	}
+	return errors;
+}
+
+export default reduxForm({
+   validate,	
+  form: 'newTaskForm', // a unique identifier for this form
+})(connect(null, {createTask})(LeftSectionPage));

@@ -7,12 +7,13 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducers';
 import ReduxPromise from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
+import { fetchTasks } from './actions/index'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(ReduxPromise)));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(ReduxThunk)));
 
 import TaskHome from './components/taskHome.jsx';
-import NewTask from './components/newTaskRedux.jsx';
+import NewTask from './components/newTask.jsx';
 import EditTask from './components/editTask.jsx';
 import TaskView from './components/taskView.jsx';
 import AssignmentGroup from './components/assignmentGroup.jsx';
@@ -37,4 +38,6 @@ ReactDOM.render(
 		</BrowserRouter>
 	</Provider>, document.getElementById('mainApp')
 );
+
+//store.dispatch(fetchTasks());
 

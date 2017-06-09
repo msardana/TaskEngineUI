@@ -20,7 +20,7 @@ class TaskList extends React.Component{
 		
 		return(
 		<div className="myTableData margin-t-10">
-			{this.props.tasks ? 
+			
 				
 					<Table responsive striped bordered className="margin-0">
 						<thead>
@@ -52,17 +52,20 @@ class TaskList extends React.Component{
 								}									
 									
 						</tbody>
-					  </Table>		
+					  </Table>						
+			  
 				
-			  : <p> Loading... </p>
-			}	
 			</div>
 		);
 	}
+}
+
+function mapStateToProps(state) {
+	return {tasks: state.tasks, isFetching : state.isFetching};
 }
 
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators({selectTask: selectTask}, dispatch);
 }
 
-export default connect(null, {selectTask})(TaskList);
+export default connect(mapStateToProps, {selectTask})(TaskList);

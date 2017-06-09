@@ -1,13 +1,13 @@
 import React from 'react';
-import {Grid,Row,Col,Form} from 'react-bootstrap';
-
+import {Row,Col,FormGroup,FormControl,ControlLabel, Grid} from 'react-bootstrap';
 import Header from './header.jsx';
 import LeftSidebar from './newTask/left-sidebar.jsx';
 import RightSidebar from './right-sidebar-menulist.jsx';
 import HeaderMain from './newTask/header.jsx';
-import LeftSection from './newTask/form.jsx';
+import NewTaskFormSection from './newTask/form.jsx';
 import RightSection from './newTask/requestor.jsx';
 import FooterMain from './footer.jsx';
+
 
 class MyComponent extends React.Component {
 	constructor(props) {
@@ -20,6 +20,16 @@ class MyComponent extends React.Component {
 	showHideRightNav(value){
 		this.setState({showHideRightNav:!this.state.showHideRightNav});
 	};
+	
+	showResults(values) {
+//	const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+	
+
+  alert(`You submitted:\n\n${JSON.stringify(values, null, 2)}`);
+  this.props.createTask(values);
+}
+
    render() {
       return (
 		<div>
@@ -35,41 +45,22 @@ class MyComponent extends React.Component {
 			<LeftSidebar  />
 			{/* App Left Side MenuBar Section End*/}
 			
-			<Grid className="midInnerAll" bsClass="">
-			<Form>
-				{/* App Heading Section Start*/}
-				<HeaderMain />
-				{/* App Heading Section end*/}
-				
-				<Row className="row-eq-height">
-					<Col md={8} sm={12} xs={12}>
-						<div className="">
-							{/* Page Left Section Start*/}
-							<LeftSection />
-							{/* Page Left Section End*/}
-						</div>
-					</Col>
-					<Col md={4} className="hidden-sm hidden-xs colRightHeight">
-						<div className="">
-							{/* Page Right Section Start*/}
-							<RightSection />
-							{/* Page Right Section End*/}
-						</div>
-					</Col>     
-				</Row>
-				<Row>
-					<Col xs={12}>
-						{/* Footer Section Start*/}
-						<FooterMain />
-						{/* Footer Section End*/}
-					</Col>
-				</Row>
-			</Form>
-			</Grid>
-		</div>
+			<NewTaskFormSection />
+			
+			
+			<Row>
+				<Col xs={12}>
+					{/* Footer Section Start*/}
+					<FooterMain />
+					{/* Footer Section End*/}
+				</Col>
+			</Row>
+
+			</div>
       );
    }
 }
+
 
 
 export default MyComponent;
