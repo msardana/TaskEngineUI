@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid,Row,Col,Form} from 'react-bootstrap';
 
 import Header from './header.jsx';
-import LeftSidebar from './newTask/left-sidebar.jsx';
+import LeftSidebar from './taskHome/left-sidebar.jsx';
 import RightSidebar from './right-sidebar-menulist.jsx';
 import HeaderMain from './taskHome/header.jsx';
 import LeftSection from './taskHome/tasksListing.jsx';

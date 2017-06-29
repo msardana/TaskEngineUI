@@ -1,9 +1,12 @@
 import React from 'react';
 import {Row,Col,Table,Button} from 'react-bootstrap';
+import { Field, reduxForm } from 'redux-form';
+import {connect } from 'react-redux';
 
-class AssignmentGroup extends React.Component{
+class outputVariables extends React.Component{
 	render(){
 		return(
+		<form>
 		<div className="rPageSec">
 			<div className="rPageHeading">Output Variables</div>
 				<Table responsive striped bordered id="master_table">
@@ -25,9 +28,12 @@ class AssignmentGroup extends React.Component{
 					</tbody>
 				</Table>		
 				<Row><Col md={12}><Button bsStyle="primary" title="Save Variables">Save</Button></Col></Row>
-		</div>
+		</div>	
+		</form>
 		);
 	}
 }
 
-export default AssignmentGroup;
+export default reduxForm({   
+  form: 'outputVariablesForm', // a unique identifier for this form
+})(connect(null, {})(outputVariables));

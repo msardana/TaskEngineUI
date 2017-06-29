@@ -1,7 +1,5 @@
 import {FETCH_TASKS_REQUEST, FETCH_TASKS_RECIEVED} from '../actions/index';
 
-var taskService = require('../server/tasks.js');
-
 export default function(state = {}, action) {
 	console.log('reducer called');
   switch (action.type) {

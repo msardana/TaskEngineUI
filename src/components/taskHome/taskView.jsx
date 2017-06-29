@@ -20,10 +20,14 @@ class TaskDetail extends React.Component{
 				<div className="rPageHeading"><div className="iconSet"><Link title="View Details" to="/editTask"><i className="fa fa fa-pencil"></i></Link></div>{this.props.task.taskCode}</div>
 				<ListGroup bsClass="" className="ListDetails">
 					<ListGroupItem bsClass=""><span className="labSpan">Description-</span>{this.props.task.description}</ListGroupItem>
+					<ListGroupItem bsClass=""><span className="labSpan">Requestor-</span>{this.props.task.requesterName}</ListGroupItem>
+					<ListGroupItem bsClass=""><span className="labSpan">Work Item Type-</span>{this.props.task.workItemType}</ListGroupItem>
+					<ListGroupItem bsClass=""><span className="labSpan">Work Item Id-</span>{this.props.task.workItemId}</ListGroupItem>					
 					<ListGroupItem bsClass=""><span className="labSpan">Task Sequence-</span>{this.props.task.sequenceNumber}</ListGroupItem>
 					<ListGroupItem bsClass=""><span className="labSpan">Assignment Group-</span>{this.props.task.assignedToGroup}</ListGroupItem>
 					<ListGroupItem bsClass=""><span className="labSpan">Assigned To-</span>{this.props.task.assignedTo}</ListGroupItem>
-					<ListGroupItem bsClass=""><span className="labSpan">Target Date-</span>{this.props.task.dueDate}</ListGroupItem>
+					<ListGroupItem bsClass=""><span className="labSpan">Expected Start date-</span>{this.props.task.expectedStartDate}</ListGroupItem>					
+					<ListGroupItem bsClass=""><span className="labSpan">Target Date-</span>{this.props.task.expectedDueDate}</ListGroupItem>
 				</ListGroup>
 			</div>
 		);

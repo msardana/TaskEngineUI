@@ -1,41 +1,55 @@
 import React from 'react';
 import {Table} from 'react-bootstrap';
+import {connect} from 'react-redux';
+import {fetchInputVariables} from '../../actions/index';
+import {bindActionCreators} from 'redux';
 
-class AssignmentGroup extends React.Component{
+class InputVariables extends React.Component{
+
+	componentDidMount() {
+	
+		this.props.fetchInputVariables(3);
+	}
+
 	render(){
-		return(
-		<div className="rPageSec">
-			<div className="rPageHeading">Input Variables</div>
-				<Table responsive striped bordered>
-					<thead>
-					  <tr>
-						<th>Task ID</th>
-						<th>Variable</th>
-						<th>Value</th>
-					  </tr>
-					</thead>
-					<tbody>
-					  <tr>
-						<td>T00010</td>
-						<td>Server IP</td>
-						<td>10.10.10.10</td>
-						</tr>
-					  <tr>
-						<td>T00011</td>
-						<td>Server Hostname</td>
-						<td>PET1234</td>
-						</tr>	
-					  <tr>
-						<td>T00012</td>
-						<td>Key1</td>
-						<td>Value1</td>
-						</tr>
-					</tbody>
-				</Table>		
-
-		</div>
+		console.log("length of result:" + this.props.inputVariables.length);
+		return(		
+		
+			<div className="rPageSec">
+				<div className="rPageHeading">Input Variables</div>
+		{this.props.inputVariables.length > 0 ?  
+					<Table responsive striped bordered>
+						<thead>
+						  <tr>
+							<th>Task ID</th>
+							<th>Variable</th>
+							<th>Value</th>
+						  </tr>
+						</thead>
+						<tbody>
+						{this.props.inputVariables.map((item, index)=>
+						  <tr key={index}>
+							<td>{item.taskCode}</td>
+							<td>{item.output_key}</td>
+							<td>{item.output_value}</td>
+							</tr>
+						  )
+						}
+						</tbody>
+					</Table>		
+		:<p> No inputs defined yet! </p>}
+			</div>
+		
 		);
 	}
 }
 
-export default AssignmentGroup;
+
+function mapStateToProps(state) {
+	return {inputVariables: state.inputVariables, loading : state.loading};
+}
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({fetchInputVariables: fetchInputVariables}, dispatch);
+}
+export default connect(mapStateToProps,mapDispatchToProps)(InputVariables);

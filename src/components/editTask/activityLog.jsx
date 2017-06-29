@@ -1,99 +1,104 @@
 import React from 'react';
-import {Row,Col,Media,Image,FormGroup,ControlLabel,FormControl,Radio,ButtonToolbar,Button} from 'react-bootstrap';
+import { Field, reduxForm } from 'redux-form';
+import {Row,Col,Nav,NavItem,OverlayTrigger,Popover,Button,Media,Image,FormControl,Checkbox,FormGroup,ControlLabel} from 'react-bootstrap';
+import {ReadMore} from 'react-read-more';
+import {connect} from 'react-redux';
+import {fetchActivityLogs, sortActivityLogs, createActivityLog} from '../../actions/index';
+import {bindActionCreators} from 'redux';
 
-class AssignmentGroup extends React.Component{
+const MoreArrow = <i title="More" className="fa fa-angle-double-down f-size-15" ></i>;
+class PopoverActivityLogData extends React.Component {
 	constructor(props){
 	super(props);
 		this.state = {
-			showResults:true,
-			showWriteData:false
+			showUserData:false,
+			description:'', 
+			activityType:''
 		};
-	};
-	writeReviewFun(){
-		this.setState({showResults:true});
-		this.setState({showWriteData:false});
-	};
-	
-	viewReviewFun(){
-		this.setState({showResults:false});
-		this.setState({showWriteData:true});
-	};
-	render(){
-		return(
-		<div className="rPageSec">
-			<div className="rPageHeading"><div className="float-r cursorPoint f-size-16 margin-t-5">{this.state.showResults ? <span title="New Activity Log" onClick={this.viewReviewFun.bind(this)}><i className="fa fa-pencil-square-o"></i></span> : null}{this.state.showWriteData ? <span title="View Activity Log" onClick={this.writeReviewFun.bind(this)}><i className="fa fa-file-text-o"></i></span> : null}</div>Activity Log</div>		
-			
-			{this.state.showResults ? <WriteForm  /> : null}
-			{this.state.showWriteData ? <WriteReviewSec /> : null}
-		</div>
-		);
-	}
-}
-class WriteForm extends React.Component{
-	constructor(props){
-	super(props);
-		this.state = {
-			showUserData:false
-		};
+		this.showUserDetails = this.showUserDetails.bind(this);
+		this.handleInputChange = this.handleInputChange.bind(this);
+		this.createActivityLog = this.createActivityLog.bind(this);
+		
 	};
 	showUserDetails(){
 		this.setState({showUserData:!this.state.showUserData});
 	};	
-	render(){
-		return(
-			<div className="myActLog">
-					<Media>
-					  <Media.Body>
-						<Media.Heading className="blue margin-0">Mar 03, 2017 at 12:05:10 AM - Internal - <span className="colorStOrange cursorPoint" onClick={this.showUserDetails.bind(this)}>Rahul Kandhari</span></Media.Heading>
-						<div className="black fw-300 cTxt">Status modified from A to B</div>
-					  </Media.Body>
-					  {this.state.showUserData ? <div className="bgGray proData"><div className="leftSec"><Image className="cursorPoint userImg" src="views/images/rahul.jpg" alt="profile image" /></div><div className="rigSec"><div className="f-size-12">Rahul Kandhari</div><div>Company: <b>Hcl</b>, Department: <b>Hcl-DryIce</b>, Location: <b>Noida</b>, Mobile: <b>#9810493151</b>, Email: <b>rahulka@hcl.com</b></div></div></div> : null}
-					</Media>
-					<Media>
-					  <Media.Body>
-						<Media.Heading className="blue margin-0">Mar 03, 2017 at 12:05:10 AM - External - <span className="colorStOrange cursorPoint">Rahul Kandhari</span></Media.Heading>
-						<div className="black fw-300 cTxt">Priority modified from B to C</div>
-					  </Media.Body>
-					</Media>
-					<Media>
-					  <Media.Body>
-						<Media.Heading className="blue margin-0">Mar 03, 2017 at 12:05:10 AM - Internal - <span className="colorStOrange cursorPoint">Rahul Kandhari</span></Media.Heading>
-						<div className="black fw-300 cTxt">Service modified from C to D</div>
-					  </Media.Body>
-					</Media>
-					<Media>
-					  <Media.Body>
-						<Media.Heading className="blue margin-0">Mar 03, 2017 at 12:05:10 AM - Internal - <span className="colorStOrange cursorPoint">Rahul Kandhari</span></Media.Heading>
-						<div className="black fw-300 cTxt">Impacted User modified from D to E</div>
-					  </Media.Body>
-					</Media>
-			</div>	
-		)
+	
+	componentDidMount() {
+		console.log(this.props.taskToEdit.taskCode);
+		this.props.fetchActivityLogs(this.props.taskToEdit.taskCode);
 	}
-}
+	
+	createActivityLog(event) {
+			console.log('create activity logs' + this.state.description);
+	}
 
-class WriteReviewSec extends React.Component{
+	sortActivityLog(event, order) {			
+			this.props.sortActivityLogs(this.props.taskToEdit.taskCode, event);
+	}
+	
+	handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : '';
+    const name = target.name;
+
+	console.log(name + value)
+    this.setState({
+      [name]: value
+    });
+  }
+
 	render(){
+	
+	const required = value => (value ? undefined : 'Required')
 		return(
 			<div>
-				<FormGroup controlId="formControlsTextarea">
-				  <ControlLabel>Activity Details</ControlLabel>
-				  <FormControl componentClass="textarea" rows="4" />
-				</FormGroup>
-				
-				<FormGroup>
-					  <Radio name="radioGroup" inline defaultChecked>
-						Internal
-					  </Radio>
-					  {' '}
-					  <Radio name="radioGroup" inline>
-						External
-					  </Radio>
-				</FormGroup>
-				<ButtonToolbar><Button bsStyle="primary">Save</Button></ButtonToolbar>
+			<div className="f-size-18">Activity Log</div>
+			<div className="bgGray padding-10 tbox">
+				<div className="position-re"><FormControl componentClass="textarea" rows="2" /></div>
+				<div className="btnNew"><a href="#" title="Post"><i className="fa fa-chevron-circle-right "></i></a><div className="margin-t-5 display-inline-block"><Checkbox>Internal</Checkbox></div></div>
 			</div>
-		)
+			<div className="margin-t-5 padding-b-5 border-b">Filters:<span className="float-r f-size-17"><a href="#" className="black" title="Ascending" onClick={this.sortActivityLog.bind(this,'ASC')} name="ASC"><i className="fa fa-angle-up"></i></a>&nbsp;&nbsp;<a href="#" className="black" title="Descending" onClick={this.sortActivityLog.bind(this,'DESC')} name="DESC"><i className="fa fa-angle-down" ></i></a></span></div>
+			{
+			this.props.activityLogs.length > 0 ?  
+				this.props.activityLogs.map((item, index)=>
+				<Media key={index}>
+				
+				  <Media.Left align="top">
+					<Image src="views/images/dheeraj_saraswat.jpg" alt="profile image"/>
+				  </Media.Left>
+				  <Media.Body >
+				  
+					<Media.Heading className="blue margin-0">{item.createdDate} - {item.activityType ? 'Internal' : 'External' } - <span className="colorStOrange cursorPoint">{item.createdBy}</span></Media.Heading>
+					<div className="black fw-300 cTxt"><ReadMore lines={1} onShowMore={this.props.onChange} text={MoreArrow}>
+							{item.description}
+						</ReadMore></div>
+						
+				  </Media.Body>				  
+				</Media>
+				)
+			: <p> No Activity logs yet </p> }	
+			</div>
+		);
 	}
 }
 
-export default AssignmentGroup;
+function mapStateToProps(state) {
+	return {activityLogs: state.activityLogs, taskToEdit: state.selectedTask};
+}
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators({fetchActivityLogs: fetchActivityLogs, sortActivityLogs: sortActivityLogs, createActivityLog}, dispatch);
+}
+
+PopoverActivityLogData = reduxForm({	
+  form: 'activityLogForm', // a unique identifier for this form
+})(PopoverActivityLogData)
+
+// You have to connect() to any reducers that you wish to connect to yourself
+PopoverActivityLogData = connect(
+  mapStateToProps,
+  {fetchActivityLogs, sortActivityLogs, createActivityLog} // bind account loading action creator
+)(PopoverActivityLogData);
+
+export default PopoverActivityLogData;

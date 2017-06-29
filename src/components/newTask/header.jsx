@@ -1,6 +1,7 @@
 import React from 'react';
 import {Row,Col,PageHeader,Nav,NavItem} from 'react-bootstrap';
 import {LinkContainer} from 'react-router-bootstrap';
+import {Link} from 'react-router-dom';
 
 class NewTaskHeading extends React.Component {
    render() {
@@ -18,7 +19,7 @@ class NewTaskHeading extends React.Component {
 			  </div>			
 			  <div className="status myStatusGap border-r margin-b-10 margin-r-10 padding-r-10">
 				<Nav bsClass="">
-					<NavItem title="Input Variables" eventKey={1}><span className="sAction bgBtn11 invar"></span></NavItem>
+					<LinkContainer to="/task/inputVariables" title="New Task"><NavItem title="Input Variables" eventKey={1}><span className="sAction bgBtn11 invar"></span></NavItem></LinkContainer>
 					<NavItem title="Output Variables" eventKey={2}><span className="sAction bgBtn14 outvar"></span></NavItem>
 					<NavItem title="Activity Log" eventKey={3}><span className="sAction bgBtn9 actLog"></span></NavItem>
 					<NavItem title="Relationships" eventKey={4}><span className="sAction bgBtn10 relaShip"></span></NavItem>

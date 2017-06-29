@@ -1,30 +1,38 @@
 import React from 'react';
-import {Col,OverlayTrigger,Popover,ListGroup,ListGroupItem,Form,FormGroup,ControlLabel,FormControl,Nav,NavItem,Button} from 'react-bootstrap';
+import {Row,Col,Nav,NavItem,OverlayTrigger,Popover,Button,Media,Image,FormControl,Checkbox,FormGroup,ControlLabel} from 'react-bootstrap';
+import {ReadMore} from 'react-read-more';
+import OnClickOutside from 'react-onclickoutside';
+import PopoverActivityLogData from './activityLog.jsx';
+import PopoverAuditLogData from './audit.jsx';
+
+const MoreArrow = <i title="More" className="fa fa-angle-double-down f-size-15" ></i>;
 
 class LeftSidebarMenulist extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state ={
-			popoverClick:(
-			  <Popover id="popoverWorkData">
-				<FormGroup>
-					<ControlLabel>Application</ControlLabel>
-					<FormControl componentClass="select"><option>All</option><option>App1</option><option>App2</option></FormControl>
-				</FormGroup>
-				<FormGroup>
-					<ControlLabel>Tenant</ControlLabel>
-					<FormControl componentClass="select"><option>All</option><option>Tenant1</option><option>Tenant2</option></FormControl>
-				</FormGroup>
-				<Button bsStyle="primary">Ok</Button>
-			  </Popover>
-			)
+			isOpen:true
 		}
-	}
+	};	
+	showOverlayValue(){
+		{/*console.log(this.refs)
+		console.log(this.refs.dheeraj._overlay.props.show);*/}
+	};	
+	
+	handleClickOutside(){
+		{/*console.log(this.refs)
+		console.log(this.refs.dheeraj._overlay.props.rootClose);*/}
+	}	
    render() {
+	const popoverActivityLog = (<Popover className="innerBigPopover" id="popoverActivityLog"><PopoverActivityLogData /></Popover>);
+	const popoverAuditLog = (<Popover className="innerBigPopover" id="popoverAuditLog"><PopoverAuditLogData /></Popover>);
+	
       return (
 		<div className="leftNav">
 			<Nav bsClass="" className="leftMenu">
-				<OverlayTrigger container={this} trigger="click" rootClose placement="right" overlay={this.state.popoverClick}><NavItem eventKey={1}><span title="Task Home" className="bgBtn11 lSidebar mywork"></span></NavItem></OverlayTrigger>
+				<NavItem href="#" eventKey={1} title="Details"><span className="bgBtn9 lSidebar brkf1"></span></NavItem>
+				<OverlayTrigger container={this} trigger="click" rootClose placement="right" overlay={popoverActivityLog}><NavItem href="#" eventKey={2} title="Activity Log"><span className="bgBtn4 lSidebar brkf4"></span></NavItem></OverlayTrigger>
+				<OverlayTrigger container={this} trigger="click" rootClose placement="right" overlay={popoverAuditLog}><NavItem href="#" eventKey={3} title="Audit Log"><span className="bgBtn2 lSidebar brkf10"></span></NavItem></OverlayTrigger>
 			</Nav>
 		</div>
 				
@@ -32,6 +40,9 @@ class LeftSidebarMenulist extends React.Component {
    }
 }
 
+LeftSidebarMenulist = OnClickOutside(LeftSidebarMenulist);
 
 export default LeftSidebarMenulist;
+
+
 

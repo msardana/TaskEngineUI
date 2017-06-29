@@ -17,7 +17,7 @@ class TasksMain extends React.Component {
 		
 	};
 	
-	componentWillMount() {
+	componentDidMount() {
 	
 		this.props.fetchTasks();
 	}

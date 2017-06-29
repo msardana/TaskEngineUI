@@ -7,7 +7,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from './reducers';
 import ReduxPromise from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
-import { fetchTasks } from './actions/index'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(ReduxThunk)));
@@ -27,12 +26,13 @@ ReactDOM.render(
 		<BrowserRouter >
 		<div>
 		<Switch>
+			<Route path="/task/inputVariables" component={InputVariables}/>
 			<Route path="/newTask" component={NewTask}/>
 			<Route path="/editTask" component={EditTask}/>
 			<Route path="/taskView" component={TaskView}/>	
 			<Route path="/" component={TaskHome}/>					
 			<Route path="/assignmentGroup" component={AssignmentGroup}/>
-			<Route path="/newTask/inputVariables" component={InputVariables}/>
+			
 		</Switch>	
 		</div>	
 		</BrowserRouter>

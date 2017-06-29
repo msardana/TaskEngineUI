@@ -5,7 +5,7 @@ import Header from './header.jsx';
 import LeftSidebar from './editTask/left-sidebar.jsx';
 import RightSidebar from './right-sidebar-menulist.jsx';
 import HeaderMain from './editTask/header.jsx';
-import LeftSection from './editTask/form.jsx';
+import EditTaskFormSection from './editTask/form.jsx';
 import RightSection from './editTask/requestor.jsx';
 import FooterMain from './footer.jsx';
 
@@ -36,37 +36,16 @@ class EditTask extends React.Component {
 			<LeftSidebar  />
 			{/* App Left Side MenuBar Section End*/}
 			
-			<Grid className="midInnerAll" bsClass="">
+			<EditTaskFormSection />
 			
-				{/* App Heading Section Start*/}
-				<HeaderMain />
-				{/* App Heading Section end*/}
-				
-				<Row className="row-eq-height">
-					<Col md={8} sm={12} xs={12}>
-						<div className="">
-							{/* Page Left Section Start*/}
-							<LeftSection />
-							{/* Page Left Section End*/}
-						</div>
-					</Col>
-					<Col md={4} className="hidden-sm hidden-xs colRightHeight">
-						<div className="">
-							{/* Page Right Section Start*/}
-							<RightSection />
-							{/* Page Right Section End*/}
-						</div>
-					</Col>     
-				</Row>
 				<Row>
 					<Col xs={12}>
 						{/* Footer Section Start*/}
 						<FooterMain />
 						{/* Footer Section End*/}
 					</Col>
-				</Row>
+				</Row>			
 			
-			</Grid>
 		</div>
       );
    }
